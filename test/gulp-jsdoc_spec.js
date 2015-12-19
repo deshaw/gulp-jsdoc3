@@ -42,7 +42,7 @@ describe('gulp-jsdoc', function () {
 
     describe('Success cases', function () {
         it('Should call done and document files', function (cb) {
-            let done = function (err) {
+            const done = function (err) {
                 expect(err).not.to.exist;
                 const stats = fs.statSync(config.opts.destination);
                 expect(stats.isDirectory()).to.be.true;
@@ -59,7 +59,7 @@ describe('gulp-jsdoc', function () {
 
     describe('When passed no files', function () {
         it('Should call done with error when no files were passed', function (cb) {
-            let done = function (err) {
+            const done = function (err) {
                 expect(err).to.exist;
                 cb();
             };
@@ -68,17 +68,16 @@ describe('gulp-jsdoc', function () {
     });
 
     describe('When jsdoc does not exist', function () {
+        const cmd = require.resolve('jsdoc/jsdoc.js');
         before(function () {
-            fs.renameSync(__dirname + '/../node_modules/jsdoc/jsdoc.js',
-                __dirname + '/../node_modules/jsdoc/jsdoc.js.test');
+            fs.renameSync(cmd, cmd + '.renamed');
         });
         after(function () {
-            fs.renameSync(__dirname + '/../node_modules/jsdoc/jsdoc.js.test',
-                __dirname + '/../node_modules/jsdoc/jsdoc.js');
+            fs.renameSync(cmd + '.renamed', cmd);
         });
 
         it('Should return an error due to error code != 0', function (cb) {
-            let done = function (err) {
+            const done = function (err) {
                 expect(err).to.exist;
                 cb();
             };

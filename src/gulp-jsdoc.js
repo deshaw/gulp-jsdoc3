@@ -1,6 +1,7 @@
 import map from 'map-stream';
 import tmp from 'tmp';
 import fs from 'fs';
+import path from 'path';
 import gutil from 'gulp-util';
 var os = require('os').type();
 
@@ -52,17 +53,16 @@ export function jsdoc(config, done) {
 
             debug('Documenting files: ' + files.join(' '));
             fs.writeFile(tmpobj.name, JSON.stringify(config), 'utf8', function (err) {
-                const spawn = require('child_process').spawn,
-                    cmd = __dirname + '/../node_modules/jsdoc/jsdoc.js';
-
                 // We couldn't write the temp file
                 if (err) {
                     reject(err);
                 }
 
+                const spawn = require('child_process').spawn,
+                    cmd = require.resolve('jsdoc/jsdoc.js'), // Needed to handle npm3 - find the binary anywhere
+                    inkdocstrap = path.dirname(require.resolve('ink-docstrap'));
                 // Config + ink-docstrap
-                const args = ['-c', tmpobj.name, '-t', __dirname + '/../node_modules/ink-docstrap/template']
-                    .concat(files);
+                const args = ['-c', tmpobj.name, '-t', inkdocstrap].concat(files);
 
                 debug(cmd + ' ' + args.join(' '));
 
