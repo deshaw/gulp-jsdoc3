@@ -3,6 +3,7 @@ import tmp from 'tmp';
 import fs from 'fs';
 import path from 'path';
 import gutil from 'gulp-util';
+import Promise from 'bluebird';
 var os = require('os').type();
 
 var debug = require('debug')('gulp-jsdoc3');
