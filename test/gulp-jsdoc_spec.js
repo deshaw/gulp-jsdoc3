@@ -55,6 +55,21 @@ describe('gulp-jsdoc', function () {
             };
             gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
         });
+
+        it('Should call done only once when documenting multiple files', function (cb) {
+            const done = function (err) {
+                expect(err).not.to.exist;
+                const stats = fs.statSync(config.opts.destination);
+                expect(stats.isDirectory()).to.be.true;
+                expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                    .to.contain('JSDocTesting');
+                expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
+                    .to.contain('inputDataHere');
+
+                cb();
+            };
+            gulp.src([__dirname + '/testFile*.js']).pipe(jsdoc(config, done));
+        });
     });
 
     describe('When passed no files', function () {
