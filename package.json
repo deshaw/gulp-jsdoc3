@@ -45,7 +45,6 @@
   "dependencies": {
     "bluebird": "^3.1.1",
     "debug": "^2.2.0",
-    "gulp": "^3.9.0",
     "gulp-util": "^3.0.7",
     "ink-docstrap": "^1.0.2",
     "jsdoc": "^3.4.0",
@@ -61,6 +60,7 @@
     "coveralls": "^2.11.6",
     "eslint": "^1.10.3",
     "eslint-plugin-babel": "^3.0.0",
+    "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-eslint": "^1.1.1",
     "gulp-istanbul": "^0.10.3",
@@ -70,5 +70,8 @@
     "mocha": "^2.3.4",
     "pre-commit": "^1.1.2",
     "run-sequence": "^1.1.5"
+  },
+  "peerDependencies": {
+    "gulp": "^3.9.0"
   }
 }
