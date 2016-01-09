@@ -17,9 +17,9 @@ the only exception is ink-docstrap is bundled here and used for templating.
 ```javascript
 var jsdoc = require('gulp-jsdoc3');
 
-gulp.task('doc', function (cb) {
+gulp.task('doc', function () {
     gulp.src(['README.md', './src/**/*.js'], {read: false})
-        .pipe(jsdoc(config, cb));
+        .pipe(jsdoc(config));
 });
 ```
 
