@@ -6,6 +6,7 @@
   "files": [
     "dist",
     "docs",
+    "index.js",
     "src"
   ],
   "repository": {
