@@ -23,7 +23,7 @@
     "preversion": "echo \"Another version! Keep up the good work!\"",
     "version": "",
     "postversion": "git push && git push --tags",
-    "prepublish": "gulp build && gulp doc",
+    "prepublish": "gulp default",
     "coveralls": "gulp test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "keywords": [

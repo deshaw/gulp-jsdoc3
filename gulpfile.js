@@ -20,6 +20,11 @@ gulp.task('build', function () {
         .pipe(gulp.dest('dist'));
 });
 
+gulp.task('copy', function () {
+    return gulp.src('./src/jsdocConfig.json')
+        .pipe(gulp.dest('dist'));
+});
+
 gulp.task('lint', function () {
     return gulp.src(lintedFiles)
         .pipe(eslint())
@@ -39,10 +44,9 @@ gulp.task('watch-lint', function () {
 gulp.task('doc', function (cb) {
     var jsdoc = require('./index');
 
-    var config = require('./jsdocConfig');
-    gulp.src(['README.md'].concat(srcCode), {read: false}).pipe(
-        jsdoc(config, cb)
-    );
+    var config = require('./src/jsdocConfig');
+    gulp.src(['README.md'].concat(srcCode), {read: false})
+        .pipe(jsdoc(config, cb));
 });
 
 gulp.task('pre-test', function () {
@@ -67,7 +71,7 @@ gulp.task('test', ['pre-test'], function () {
         .pipe(istanbul.enforceThresholds({thresholds: {global: 75}}));
 });
 
-gulp.task('default', function(cb) {
+gulp.task('default', function (cb) {
     var runSequence = require('run-sequence');
-    runSequence('build', 'doc', cb);
+    runSequence('copy', 'build', 'doc', cb);
 });

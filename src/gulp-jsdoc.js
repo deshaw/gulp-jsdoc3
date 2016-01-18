@@ -13,7 +13,7 @@ var debug = require('debug')('gulp-jsdoc3');
  */
 
 /**
- * A wrapper aropund jsdoc cli.
+ * A wrapper around jsdoc cli.
  *
  * This function collects all filenames. Then runs:
  * ```jsdoc -c config -t node_modules/ink-docstrap/template gulpFile1 gulpFile2```
@@ -22,12 +22,13 @@ var debug = require('debug')('gulp-jsdoc3');
  *     jsdoc(options, cb)
  * );
  *
- * @param {Object} config
+ * @param {Object} [config=require('./jsdocConfig.json')]
  * @param {gulpDoneCallback} done
  * @returns {*|SignalBinding}
  */
 export function jsdoc(config, done) {
     var files = [];
+    var jsdocConfig = config || require('./jsdocConfig.json');
 
     // Prevent some errors
     if (typeof done !== 'function') {
@@ -35,7 +36,7 @@ export function jsdoc(config, done) {
         };
     }
 
-    debug('Config:\n' + JSON.stringify(config, undefined, 2));
+    debug('Config:\n' + JSON.stringify(jsdocConfig, undefined, 2));
 
     return map(function (file, callback) {
         files.push(file.path);
@@ -51,9 +52,8 @@ export function jsdoc(config, done) {
             }
 
             const tmpobj = tmp.fileSync();
-
             debug('Documenting files: ' + files.join(' '));
-            fs.writeFile(tmpobj.name, JSON.stringify(config), 'utf8', function (err) {
+            fs.writeFile(tmpobj.name, JSON.stringify(jsdocConfig), 'utf8', function (err) {
                 // We couldn't write the temp file
                 if (err) {
                     reject(err);
