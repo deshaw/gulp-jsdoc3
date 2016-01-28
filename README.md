@@ -4,6 +4,7 @@
 
 > [jsdoc](https://github.com/jsdoc3/jsdoc) plugin for [gulp](https://github.com/gulpjs/gulp)
 
+## Installation
 
 Install `gulp-jsdoc` as a development dependency:
 
@@ -11,19 +12,45 @@ Install `gulp-jsdoc` as a development dependency:
 npm install --save-dev gulp-jsdoc3
 ```
 
-Then, use it where config is the only way to pass in jsdoc options. All CLI options are can be specified here,
-the only exception is ink-docstrap is bundled here and used for templating.
+## Usage
 
 ```javascript
 var jsdoc = require('gulp-jsdoc3');
 
 gulp.task('doc', function (cb) {
     gulp.src(['README.md', './src/**/*.js'], {read: false})
+        .pipe(jsdoc(cb));
+});
+```
+
+You can also pass in your own config to override the defaults. All CLI options can be specified here.
+
+```javascript
+var jsdoc = require('gulp-jsdoc3');
+
+gulp.task('doc', function (cb) {
+    var config = require('./jsdoc.json');
+    gulp.src(['README.md', './src/**/*.js'], {read: false})
         .pipe(jsdoc(config, cb));
 });
 ```
 
 Another good example is in this project's [gulpfile](https://github.com/mlucool/gulp-jsdoc3/blob/master/gulpfile.js)!
+
+## Overriding the default layout
+
+[ink-docstrap](https://github.com/docstrap/docstrap) is used as the default layout but you can easily override it in your config like this:
+
+```
+{
+    "templates": {
+        "default": {
+            // Set my own layout file
+            "layoutFile": "./layout.tmpl"
+        }
+    }
+}
+```
 
 ## Debugging
 Set env variable: ```DEBUG=gulp-jsdoc3```  
