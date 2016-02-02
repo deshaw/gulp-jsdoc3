@@ -1,6 +1,6 @@
 'use strict'; // eslint-disable-line
 
-var gulp = require('gulp'),
+let gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     babel = require('gulp-babel'),
     eslint = require('gulp-eslint'),
@@ -33,7 +33,7 @@ gulp.task('lint', function () {
 });
 
 gulp.task('watch-lint', function () {
-    var runSequence = require('run-sequence');
+    let runSequence = require('run-sequence');
 
     runSequence('lint', function () {
         gulp.watch(lintedFiles, ['lint']);
@@ -42,9 +42,9 @@ gulp.task('watch-lint', function () {
 
 // We do this over using include/exclude to make everything feel gulp-like!
 gulp.task('doc', function (cb) {
-    var jsdoc = require('./index');
+    let jsdoc = require('./index');
 
-    var config = require('./src/jsdocConfig');
+    let config = require('./src/jsdocConfig');
     gulp.src(['README.md'].concat(srcCode), {read: false})
         .pipe(jsdoc(config, cb));
 });
@@ -72,6 +72,6 @@ gulp.task('test', ['pre-test'], function () {
 });
 
 gulp.task('default', function (cb) {
-    var runSequence = require('run-sequence');
+    let runSequence = require('run-sequence');
     runSequence('copy', 'build', 'doc', cb);
 });

@@ -4,9 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import gutil from 'gulp-util';
 import Promise from 'bluebird';
-var os = require('os').type();
+let os = require('os').type();
 
-var debug = require('debug')('gulp-jsdoc3');
+let debug = require('debug')('gulp-jsdoc3');
 
 /**
  * @callback gulpDoneCallback
@@ -27,14 +27,22 @@ var debug = require('debug')('gulp-jsdoc3');
  * @returns {*|SignalBinding}
  */
 export function jsdoc(config, done) {
-    var files = [];
-    var jsdocConfig = config || require('./jsdocConfig.json');
+    let files = [];
+    let jsdocConfig;    
+
+    // User just passed callback
+    if(arguments.length === 1 && typeof done !== 'function'){
+        done = config;
+        config = undefined;
+    }
 
     // Prevent some errors
     if (typeof done !== 'function') {
         done = function () {
         };
     }
+
+    jsdocConfig = config || require('./jsdocConfig.json');
 
     debug('Config:\n' + JSON.stringify(jsdocConfig, undefined, 2));
 
@@ -62,8 +70,17 @@ export function jsdoc(config, done) {
                 const spawn = require('child_process').spawn,
                     cmd = require.resolve('jsdoc/jsdoc.js'), // Needed to handle npm3 - find the binary anywhere
                     inkdocstrap = path.dirname(require.resolve('ink-docstrap'));
-                // Config + ink-docstrap
-                const args = ['-c', tmpobj.name, '-t', inkdocstrap].concat(files);
+                
+                let args = ['-c', tmpobj.name];
+                
+                // Config + ink-docstrap if user did not specify their own layout
+                if(!jsdocConfig.templates || 
+                    !jsdocConfig.templates.default || 
+                    !jsdocConfig.templates.default.layoutFile){
+                    args = args.concat(['-t', inkdocstrap]);
+                }    
+
+                args = args.concat(files);
 
                 debug(cmd + ' ' + args.join(' '));
 
