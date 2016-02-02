@@ -95,6 +95,6 @@ export function jsdoc(config, done) {
                     reject(new Error(error));
                 });
             });
-        }).then(result => done(result)).catch(err => done(err));
+        }).asCallback(done);
     });
 }
