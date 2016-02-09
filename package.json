@@ -72,8 +72,5 @@
     "mock-spawn": "^0.2.6",
     "pre-commit": "^1.1.2",
     "run-sequence": "^1.1.5"
-  },
-  "peerDependencies": {
-    "gulp": "^3.9.0"
   }
 }
