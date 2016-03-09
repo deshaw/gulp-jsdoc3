@@ -7,6 +7,7 @@ import gulp from 'gulp';
 import tmp from 'tmp';
 import path from 'path';
 import mockSpawn from 'mock-spawn';
+import Promise from 'bluebird';
 
 let mySpawn = mockSpawn();
 
@@ -99,6 +100,26 @@ describe('gulp-jsdoc', function () {
                 cb();
             };
             gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
+        });
+
+        it('Should document files with a custom layout if no callback provided', function (cb) {
+            config.templates.default.layoutFile = path.resolve('./test/layout.tmpl');
+
+            Promise.all(gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config)))
+                .then(function() {
+                    const stats = fs.statSync(config.opts.destination);
+                    expect(stats.isDirectory()).to.be.true;
+                    expect(fs.readFileSync(config.opts.destination + '/testFile.js.html', 'utf-8'))
+                        .to.contain('JSDocTesting');
+                    expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
+                        .to.contain('inputDataHere');
+                })
+                .catch(function (err) {
+                    expect(err).not.to.exist;
+                })
+                .finally(function() {
+                    cb();
+                });
         });
     });
 

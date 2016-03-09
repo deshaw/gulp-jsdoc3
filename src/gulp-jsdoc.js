@@ -31,7 +31,7 @@ export function jsdoc(config, done) {
     let jsdocConfig;    
 
     // User just passed callback
-    if(arguments.length === 1 && typeof done !== 'function'){
+    if (arguments.length === 1 && typeof config === 'function') {
         done = config;
         config = undefined;
     }
