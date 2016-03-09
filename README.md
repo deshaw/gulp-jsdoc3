@@ -57,12 +57,12 @@ Set env variable: ```DEBUG=gulp-jsdoc3```
 
 ## Notes
 This is a reasonable attempt to wrap jsdoc using gulp as thinly as possible. All files are added after the cli.
-i.e. jsdoc -c config -t node_modules/ink-docstrap/template gulpFile1 gulpFile2  
+i.e. `jsdoc -c config -t node_modules/ink-docstrap/template gulpFile1 gulpFile2`  
 [jsdoc](https://github.com/jsdoc3/jsdoc) does not allow for piped input, so this attempt may be considered a gulp
 anti-pattern. It also does not pass on output to be piped elsewhere.
 
 
-I would like to thank Mangled Deutz @ [gulp-jsdoc](https://github.com/jsBoot/gulp-jsdoc) for the original implimentation.
+I would like to thank Mangled Deutz @ [gulp-jsdoc](https://github.com/jsBoot/gulp-jsdoc) for the original implementation.
 
 License
 -------------
