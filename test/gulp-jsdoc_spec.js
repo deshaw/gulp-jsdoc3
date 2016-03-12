@@ -105,8 +105,8 @@ describe('gulp-jsdoc', function () {
         it('Should document files with a custom layout if no callback provided', function (cb) {
             config.templates.default.layoutFile = path.resolve('./test/layout.tmpl');
 
-            Promise.all(gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config)))
-                .then(function() {
+            Promise.all([gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config))])
+                .then(function () {
                     const stats = fs.statSync(config.opts.destination);
                     expect(stats.isDirectory()).to.be.true;
                     expect(fs.readFileSync(config.opts.destination + '/testFile.js.html', 'utf-8'))
@@ -117,7 +117,7 @@ describe('gulp-jsdoc', function () {
                 .catch(function (err) {
                     expect(err).not.to.exist;
                 })
-                .finally(function() {
+                .finally(function () {
                     cb();
                 });
         });
@@ -152,11 +152,11 @@ describe('gulp-jsdoc', function () {
     });
 
     describe('When a custom layout file does not exist', function () {
-        beforeEach(function(){
+        beforeEach(function () {
             config.templates.default.layoutFile = './nothere.tmpl';
         });
 
-        it('Should return an error due to error code != 0', function (cb) {            
+        it('Should return an error due to error code != 0', function (cb) {
             const done = function (err) {
                 expect(err).to.exist;
                 cb();
@@ -173,8 +173,8 @@ describe('gulp-jsdoc', function () {
             mySpawn.sequence.add(function (cb) {
                 // test the error handling
                 this.emit('error', new Error('spawn ENOENT'));
-                setTimeout(function() { 
-                    return cb(8); 
+                setTimeout(function () {
+                    return cb(8);
                 }, 10);
             });
         });
