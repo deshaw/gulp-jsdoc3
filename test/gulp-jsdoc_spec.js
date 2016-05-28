@@ -7,7 +7,6 @@ import gulp from 'gulp';
 import tmp from 'tmp';
 import path from 'path';
 import mockSpawn from 'mock-spawn';
-import Promise from 'bluebird';
 
 let mySpawn = mockSpawn();
 
@@ -90,8 +89,8 @@ describe('gulp-jsdoc', function () {
                 if (!err) {
                     const stats = fs.statSync(config.opts.destination);
                     expect(stats.isDirectory()).to.be.true;
-                    expect(fs.readFileSync(config.opts.destination + '/testFile.js.html', 'utf-8'))
-                        .to.contain('JSDocTesting');
+                    expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                        .to.contain('24a2357a-1078-11e6-a148-3e1d05defe78');
                     expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
                         .to.contain('inputDataHere');
                 }
@@ -105,17 +104,28 @@ describe('gulp-jsdoc', function () {
             config.templates.default.layoutFile = path.resolve('./test/layout.tmpl');
 
             gulp.src([__dirname + '/testFile.js'])
-                .pipe(jsdoc(config))
-                .on('data', function (data) {
-                    const stats = fs.statSync(config.opts.destination);
-                    expect(stats.isDirectory()).to.be.true;
-                    expect(fs.readFileSync(config.opts.destination + '/testFile.js.html', 'utf-8'))
-                        .to.contain('JSDocTesting');
+                .pipe(jsdoc(config));
+
+            // Poll
+            let count = 0;
+            const pollMS = 100;
+            const maxPolls = 15;
+            const interval = setInterval(() => {
+                const stats = fs.readdirSync(config.opts.destination);
+                // Files created!
+                if (stats.indexOf('modules.list.html') !== -1 && stats.indexOf('module-JSDocTesting.html') !== -1) {
+                    expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                        .to.contain('24a2357a-1078-11e6-a148-3e1d05defe78');
                     expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
                         .to.contain('inputDataHere');
-                    cb();
-                })
-                .on('error', cb);
+                    clearInterval(interval);
+                    return cb();
+                }
+                if (++count > maxPolls) {
+                    clearInterval(interval);
+                    return cb(new Error('Timeout'));
+                }
+            }, pollMS);
         });
     });
 
@@ -125,7 +135,7 @@ describe('gulp-jsdoc', function () {
                 expect(err).to.exist;
                 cb();
             };
-            gulp.src(['./unkownFileName']).pipe(jsdoc(config, cb));
+            gulp.src(['./unkownFileName']).pipe(jsdoc(config, done));
         });
     });
 
