@@ -49,55 +49,54 @@ describe('gulp-jsdoc', function () {
     describe('Success cases', function () {
         it('Should call done and document files', function (cb) {
             const done = function (err) {
-                expect(err).not.to.exist;
-                const stats = fs.statSync(config.opts.destination);
-                expect(stats.isDirectory()).to.be.true;
-                expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
-                    .to.contain('JSDocTesting');
-                expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
-                    .to.contain('inputDataHere');
+                if (!err) {
+                    const stats = fs.statSync(config.opts.destination);
+                    expect(stats.isDirectory()).to.be.true;
+                    expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                        .to.contain('JSDocTesting');
+                    expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
+                        .to.contain('inputDataHere');
+                }
 
-                cb();
+                cb(err);
             };
             gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
         });
 
         it('Should call done only once when documenting multiple files', function (cb) {
             const done = function (err) {
-                expect(err).not.to.exist;
-                const stats = fs.statSync(config.opts.destination);
-                expect(stats.isDirectory()).to.be.true;
-                expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
-                    .to.contain('JSDocTesting');
-                expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
-                    .to.contain('inputDataHere');
+                if (!err) {
+                    const stats = fs.statSync(config.opts.destination);
+                    expect(stats.isDirectory()).to.be.true;
+                    expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                        .to.contain('JSDocTesting');
+                    expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
+                        .to.contain('inputDataHere');
+                }
 
-                cb();
+                cb(err);
             };
             gulp.src([__dirname + '/testFile*.js']).pipe(jsdoc(config, done));
         });
 
         it('Should call done and document files with default config', function (cb) {
-            const done = function (err) {
-                expect(err).not.to.exist;
-                cb();
-            };
-            gulp.src([__dirname + '/testFile*.js']).pipe(jsdoc(done));
+            gulp.src([__dirname + '/testFile*.js']).pipe(jsdoc(cb));
         });
 
         it('Should call done and document files with a custom layout', function (cb) {
             config.templates.default.layoutFile = path.resolve('./test/layout.tmpl');
 
             const done = function (err) {
-                expect(err).not.to.exist;
-                const stats = fs.statSync(config.opts.destination);
-                expect(stats.isDirectory()).to.be.true;
-                expect(fs.readFileSync(config.opts.destination + '/testFile.js.html', 'utf-8'))
-                    .to.contain('JSDocTesting');
-                expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
-                    .to.contain('inputDataHere');
+                if (!err) {
+                    const stats = fs.statSync(config.opts.destination);
+                    expect(stats.isDirectory()).to.be.true;
+                    expect(fs.readFileSync(config.opts.destination + '/testFile.js.html', 'utf-8'))
+                        .to.contain('JSDocTesting');
+                    expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
+                        .to.contain('inputDataHere');
+                }
 
-                cb();
+                cb(err);
             };
             gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
         });
@@ -105,21 +104,18 @@ describe('gulp-jsdoc', function () {
         it('Should document files with a custom layout if no callback provided', function (cb) {
             config.templates.default.layoutFile = path.resolve('./test/layout.tmpl');
 
-            Promise.all([gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config))])
-                .then(function () {
+            gulp.src([__dirname + '/testFile.js'])
+                .pipe(jsdoc(config))
+                .on('data', function (data) {
                     const stats = fs.statSync(config.opts.destination);
                     expect(stats.isDirectory()).to.be.true;
                     expect(fs.readFileSync(config.opts.destination + '/testFile.js.html', 'utf-8'))
                         .to.contain('JSDocTesting');
                     expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
                         .to.contain('inputDataHere');
-                })
-                .catch(function (err) {
-                    expect(err).not.to.exist;
-                })
-                .finally(function () {
                     cb();
-                });
+                })
+                .on('error', cb);
         });
     });
 
@@ -129,7 +125,7 @@ describe('gulp-jsdoc', function () {
                 expect(err).to.exist;
                 cb();
             };
-            gulp.src(['./unkownFileName']).pipe(jsdoc(config, done));
+            gulp.src(['./unkownFileName']).pipe(jsdoc(config, cb));
         });
     });
 

@@ -73,12 +73,14 @@ export function jsdoc(config, done) {
                 
                 let args = ['-c', tmpobj.name];
                 
-                // Config + ink-docstrap if user did not specify their own layout
-                if(!jsdocConfig.templates || 
-                    !jsdocConfig.templates.default || 
-                    !jsdocConfig.templates.default.layoutFile){
+                // Config + ink-docstrap if user did not specify their own layout or template
+                if(!(jsdocConfig.opts &&
+                    jsdocConfig.opts.template) ||
+                    !(jsdocConfig.templates &&
+                      jsdocConfig.templates.default &&
+                      jsdocConfig.templates.default.layoutFile)) { 
                     args = args.concat(['-t', inkdocstrap]);
-                }    
+                }
 
                 args = args.concat(files);
 
