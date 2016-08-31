@@ -84,12 +84,14 @@ describe('gulp-jsdoc', function () {
 
         it('Should call done and document files with a custom layout', function (cb) {
             config.templates.default.layoutFile = path.resolve('./test/layout.tmpl');
+            config.templates.path = undefined;
+            config.templates.theme = undefined;
 
             const done = function (err) {
                 if (!err) {
                     const stats = fs.statSync(config.opts.destination);
                     expect(stats.isDirectory()).to.be.true;
-                    expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                    expect(fs.readFileSync(config.opts.destination + '/index.html', 'utf-8'))
                         .to.contain('24a2357a-1078-11e6-a148-3e1d05defe78');
                     expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
                         .to.contain('inputDataHere');
@@ -102,6 +104,8 @@ describe('gulp-jsdoc', function () {
 
         it('Should document files with a custom layout if no callback provided', function (cb) {
             config.templates.default.layoutFile = path.resolve('./test/layout.tmpl');
+            config.templates.path = undefined;
+            config.templates.theme = undefined;
 
             gulp.src([__dirname + '/testFile.js'])
                 .pipe(jsdoc(config));
@@ -113,8 +117,8 @@ describe('gulp-jsdoc', function () {
             const interval = setInterval(() => {
                 const stats = fs.readdirSync(config.opts.destination);
                 // Files created!
-                if (stats.indexOf('modules.list.html') !== -1 && stats.indexOf('module-JSDocTesting.html') !== -1) {
-                    expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                if (stats.indexOf('index.html') !== -1 && stats.indexOf('module-JSDocTesting.html') !== -1) {
+                    expect(fs.readFileSync(config.opts.destination + '/index.html', 'utf-8'))
                         .to.contain('24a2357a-1078-11e6-a148-3e1d05defe78');
                     expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
                         .to.contain('inputDataHere');
