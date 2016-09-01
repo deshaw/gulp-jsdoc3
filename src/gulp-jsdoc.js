@@ -75,7 +75,7 @@ export function jsdoc(config, done) {
 
                 // Config + ink-docstrap if user did not specify their own layout or template
                 if (!(jsdocConfig.opts &&
-                    jsdocConfig.opts.template) || !(jsdocConfig.templates &&
+                    jsdocConfig.opts.template) && !(jsdocConfig.templates &&
                     jsdocConfig.templates.default &&
                     jsdocConfig.templates.default.layoutFile)) {
                     args = args.concat(['-t', inkdocstrap]);
