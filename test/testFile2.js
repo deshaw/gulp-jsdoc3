@@ -7,12 +7,12 @@
 /**
  * An amazing test function
  *
- * @param {Object} inputDataHere an object you'd like to see as a string
+ * @param {Object} anotherParameter an object you'd like to see as a string
  * @returns {string}
  *
  */
-const testFn2 = function (inputDataHere2) {
-    return 'You gave me2: ' + JSON.stringify(inputDataHere2, undefined, 2);
+const testFn2 = function (anotherParameter) {
+    return 'You gave me2: ' + JSON.stringify(anotherParameter, undefined, 2);
 };
 
 module.exports = testFn2;
