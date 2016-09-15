@@ -172,20 +172,6 @@ describe('gulp-jsdoc', function () {
         });
     });
 
-    describe('When a custom layout file does not exist', function () {
-        beforeEach(function () {
-            config.templates.default.layoutFile = './nothere.tmpl';
-        });
-
-        it('Should return an error due to error code != 0', function (cb) {
-            const done = function (err) {
-                expect(err).to.exist;
-                cb();
-            };
-            gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
-        });
-    });
-
     describe('When the child spawn errors', function () {
         let child = require('child_process');
         let originalSpawn = child.spawn;

@@ -73,6 +73,7 @@ export function jsdoc(config, done) {
             debug('Documenting files: ' + jsdocConfig.source.include.join(' '));
             fs.writeFile(tmpobj.name, JSON.stringify(jsdocConfig), 'utf8', function (err) {
                 // We couldn't write the temp file
+                /* istanbul ignore next */
                 if (err) {
                     reject(err);
                 }
@@ -98,9 +99,11 @@ export function jsdoc(config, done) {
                     : spawn(cmd, args, {cwd: process.cwd()}); // unix
                 child.stdout.setEncoding('utf8');
                 child.stderr.setEncoding('utf8');
+                /* istanbul ignore next */
                 child.stdout.on('data', function (data) {
                     gutil.log(data);
                 });
+                /* istanbul ignore next */
                 child.stderr.on('data', function (data) {
                     gutil.log(gutil.colors.red(data));
                     gutil.beep();
