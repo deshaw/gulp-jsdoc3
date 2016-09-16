@@ -2,9 +2,6 @@
   "tags": {
     "allowUnknownTags": true
   },
-  "source": {
-    "excludePattern": "(^|\\/|\\\\)_"
-  },
   "opts": {
     "destination": "./docs/gen"
   },

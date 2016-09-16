@@ -52,7 +52,17 @@ export function jsdoc(config, done) {
     }).on('end', function () {
         // We use a promise to prevent multiple dones (normal cause error then close)
         new Promise(function (resolve, reject) {
-            if (files.length === 0) {
+            // If the user has specified a source.include key, we append the
+            // gulp.src files to it.
+            if (jsdocConfig.source && jsdocConfig.source.include) {
+                jsdocConfig.source.include =
+                    jsdocConfig.source.include.concat(files);
+            } else {
+                jsdocConfig = Object.assign(jsdocConfig,
+                    { source: { include: files } });
+            }
+
+            if (jsdocConfig.source.include.length === 0) {
                 const errMsg = 'JSDoc Error: no files found to process';
                 gutil.log(gutil.colors.red(errMsg));
                 gutil.beep();
@@ -60,9 +70,10 @@ export function jsdoc(config, done) {
             }
 
             const tmpobj = tmp.fileSync();
-            debug('Documenting files: ' + files.join(' '));
+            debug('Documenting files: ' + jsdocConfig.source.include.join(' '));
             fs.writeFile(tmpobj.name, JSON.stringify(jsdocConfig), 'utf8', function (err) {
                 // We couldn't write the temp file
+                /* istanbul ignore next */
                 if (err) {
                     reject(err);
                 }
@@ -81,8 +92,6 @@ export function jsdoc(config, done) {
                     args = args.concat(['-t', inkdocstrap]);
                 }
 
-                args = args.concat(files);
-
                 debug(cmd + ' ' + args.join(' '));
 
                 const child = os === 'Windows_NT'
@@ -90,16 +99,18 @@ export function jsdoc(config, done) {
                     : spawn(cmd, args, {cwd: process.cwd()}); // unix
                 child.stdout.setEncoding('utf8');
                 child.stderr.setEncoding('utf8');
+                /* istanbul ignore next */
                 child.stdout.on('data', function (data) {
                     gutil.log(data);
                 });
+                /* istanbul ignore next */
                 child.stderr.on('data', function (data) {
                     gutil.log(gutil.colors.red(data));
                     gutil.beep();
                 });
                 child.on('close', function (code) {
                     if (code === 0) {
-                        gutil.log('Documented ' + files.length + ' files!');
+                        gutil.log('Documented ' + jsdocConfig.source.include.length + ' files!');
                         resolve();
                     } else {
                         gutil.log(gutil.colors.red('JSDoc returned with error code: ' + code));

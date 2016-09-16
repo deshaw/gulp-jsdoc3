@@ -11,35 +11,32 @@ import mockSpawn from 'mock-spawn';
 let mySpawn = mockSpawn();
 
 describe('gulp-jsdoc', function () {
-    let config = {
-        tags: {
-            allowUnknownTags: true
-        },
-        source: {
-            includePattern: '.+\\.js(doc|x)?$',
-            excludePattern: '(^|\\/|\\\\)_'
-        },
-        opts: {
-            destination: undefined
-        },
-        plugins: ['plugins/markdown'],
-        templates: {
-            cleverLinks: false,
-            monospaceLinks: false,
-            'default': {
-                outputSourceFiles: true
-            },
-
-            path: 'ink-docstrap',
-            theme: 'cerulean',
-            navType: 'vertical',
-            linenums: true,
-            dateFormat: 'MMMM Do YYYY, h:mm:ss a'
-        }
-    };
-
+    let config;
     let tmpdir;
+
     beforeEach(function () {
+        config = {
+            tags: {
+                allowUnknownTags: true
+            },
+            opts: {
+                destination: undefined
+            },
+            plugins: ['plugins/markdown'],
+            templates: {
+                cleverLinks: false,
+                monospaceLinks: false,
+                'default': {
+                    outputSourceFiles: true
+                },
+
+                path: 'ink-docstrap',
+                theme: 'cerulean',
+                navType: 'vertical',
+                linenums: true,
+                dateFormat: 'MMMM Do YYYY, h:mm:ss a'
+            }
+        };
         tmpdir = tmp.dirSync();
         config.opts.destination = tmpdir.name;
         delete config.templates.default.layoutFile;
@@ -131,6 +128,24 @@ describe('gulp-jsdoc', function () {
                 }
             }, pollMS);
         });
+
+        it('Should respect the provided config source attribute if specified', function (cb) {
+            config.source = { include: [__dirname + '/testFile2.js'] };
+
+            const done = function (err) {
+                if (!err) {
+                    const stats = fs.statSync(config.opts.destination);
+                    expect(stats.isDirectory()).to.be.true;
+                    expect(fs.readFileSync(config.opts.destination + '/modules.list.html', 'utf-8'))
+                        .to.contain('JSDocTesting');
+                    expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
+                        .to.contain('inputDataHere').and.to.contain('anotherParameter');
+                }
+
+                cb(err);
+            };
+            gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
+        });
     });
 
     describe('When passed no files', function () {
@@ -150,20 +165,6 @@ describe('gulp-jsdoc', function () {
         });
         after(function () {
             fs.renameSync(cmd + '.renamed', cmd);
-        });
-
-        it('Should return an error due to error code != 0', function (cb) {
-            const done = function (err) {
-                expect(err).to.exist;
-                cb();
-            };
-            gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
-        });
-    });
-
-    describe('When a custom layout file does not exist', function () {
-        beforeEach(function () {
-            config.templates.default.layoutFile = './nothere.tmpl';
         });
 
         it('Should return an error due to error code != 0', function (cb) {
