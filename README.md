@@ -23,6 +23,8 @@ gulp.task('doc', function (cb) {
 });
 ```
 
+By default, documentation is output to `docs/gen`. gulp-jsdoc3 does not modify the source vinyl stream so the output location can only be specified via config, not `gulp.dest()`. You can see all the default options passed to jsdoc in [`src/jsdocConfig.json`](https://github.com/AndrewGuenther/gulp-jsdoc3/blob/master/src/jsdocConfig.json).
+
 You can also pass in your own config to override the defaults. All CLI options can be specified here.
 
 ```javascript
