@@ -54,12 +54,26 @@ Another good example is in this project's [gulpfile](https://github.com/mlucool/
 }
 ```
 
+## Other config tips and tricks
+Use [include and exclude](http://usejsdoc.org/about-configuring-jsdoc.html) patterns to filter the globs from gulp even more.
+For example, only include .js,.jsdoc, or .jsx files that do not start with _:
+```
+"source": {
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+}
+```
+
+If you want to document multiple markdown or html files, enable [tutorial support](http://usejsdoc.org/about-tutorials.html):
+```
+"tutorials": "path/to/tutorials"
+```
+
 ## Debugging
 Set env variable: ```DEBUG=gulp-jsdoc3```  
 
 ## Notes
-This is a reasonable attempt to wrap jsdoc using gulp as thinly as possible. All files are added after the cli.
-i.e. `jsdoc -c config -t node_modules/ink-docstrap/template gulpFile1 gulpFile2`  
+This is a reasonable attempt to wrap jsdoc using gulp as thinly as possible use the jsdoc config to pass in files from gulp.
 [jsdoc](https://github.com/jsdoc3/jsdoc) does not allow for piped input, so this attempt may be considered a gulp
 anti-pattern. It also does not pass on output to be piped elsewhere.
 

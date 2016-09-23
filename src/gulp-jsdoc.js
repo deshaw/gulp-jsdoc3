@@ -67,6 +67,7 @@ export function jsdoc(config, done) {
                 gutil.log(gutil.colors.red(errMsg));
                 gutil.beep();
                 reject(new Error(errMsg));
+                return;
             }
 
             const tmpobj = tmp.fileSync();
@@ -76,6 +77,7 @@ export function jsdoc(config, done) {
                 /* istanbul ignore next */
                 if (err) {
                     reject(err);
+                    return;
                 }
 
                 const spawn = require('child_process').spawn,
