@@ -1,6 +1,6 @@
 {
   "name": "gulp-jsdoc3",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "gulp integration for jsdoc3 cli",
   "main": "index.js",
   "files": [
