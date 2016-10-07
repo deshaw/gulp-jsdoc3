@@ -1,6 +1,6 @@
 # gulp-jsdoc3
 
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]  [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
+[![NPM version][npm-image]][npm-url] [![NPM DM][npm-dm-image]][npm-url] [![Build Status][travis-image]][travis-url]  [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
 
 > [jsdoc](https://github.com/jsdoc3/jsdoc) plugin for [gulp](https://github.com/gulpjs/gulp)
 
@@ -86,6 +86,7 @@ License
 
 [npm-url]: https://npmjs.org/package/gulp-jsdoc3
 [npm-image]: https://badge.fury.io/js/gulp-jsdoc3.png
+[npm-dm-image]: https://img.shields.io/npm/dm/gulp-jsdoc3.svg
 
 [travis-url]: http://travis-ci.org/mlucool/gulp-jsdoc3
 [travis-image]: https://secure.travis-ci.org/mlucool/gulp-jsdoc3.png?branch=master
