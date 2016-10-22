@@ -7,6 +7,7 @@ import gulp from 'gulp';
 import tmp from 'tmp';
 import path from 'path';
 import mockSpawn from 'mock-spawn';
+import deepStrictEqual from 'assert';
 
 let mySpawn = mockSpawn();
 
@@ -197,6 +198,19 @@ describe('gulp-jsdoc', function () {
             const done = function (err) {
                 expect(err).to.exist;
                 cb();
+            };
+            gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
+        });
+    });
+
+    describe('When using custom config', function () {
+        it('Should not mutate config', function (cb) {
+            let originalConfig = JSON.parse(JSON.stringify(config));
+            const done = function (err) {
+                if (!err) {
+                    deepStrictEqual(originalConfig, config);
+                }
+                cb(err);
             };
             gulp.src([__dirname + '/testFile.js']).pipe(jsdoc(config, done));
         });

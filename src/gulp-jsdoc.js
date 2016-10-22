@@ -52,17 +52,19 @@ export function jsdoc(config, done) {
     }).on('end', function () {
         // We use a promise to prevent multiple dones (normal cause error then close)
         new Promise(function (resolve, reject) {
+            // We clone the config file so as to not affect the original
+            let jsdocConfigClone = JSON.parse(JSON.stringify(jsdocConfig));
             // If the user has specified a source.include key, we append the
             // gulp.src files to it.
-            if (jsdocConfig.source && jsdocConfig.source.include) {
-                jsdocConfig.source.include =
-                    jsdocConfig.source.include.concat(files);
+            if (jsdocConfigClone.source && jsdocConfigClone.source.include) {
+                jsdocConfigClone.source.include =
+                    jsdocConfigClone.source.include.concat(files);
             } else {
-                jsdocConfig = Object.assign(jsdocConfig,
+                jsdocConfigClone = Object.assign(jsdocConfigClone,
                     { source: { include: files } });
             }
 
-            if (jsdocConfig.source.include.length === 0) {
+            if (jsdocConfigClone.source.include.length === 0) {
                 const errMsg = 'JSDoc Error: no files found to process';
                 gutil.log(gutil.colors.red(errMsg));
                 gutil.beep();
@@ -71,8 +73,8 @@ export function jsdoc(config, done) {
             }
 
             const tmpobj = tmp.fileSync();
-            debug('Documenting files: ' + jsdocConfig.source.include.join(' '));
-            fs.writeFile(tmpobj.name, JSON.stringify(jsdocConfig), 'utf8', function (err) {
+            debug('Documenting files: ' + jsdocConfigClone.source.include.join(' '));
+            fs.writeFile(tmpobj.name, JSON.stringify(jsdocConfigClone), 'utf8', function (err) {
                 // We couldn't write the temp file
                 /* istanbul ignore next */
                 if (err) {
@@ -87,10 +89,10 @@ export function jsdoc(config, done) {
                 let args = ['-c', tmpobj.name];
 
                 // Config + ink-docstrap if user did not specify their own layout or template
-                if (!(jsdocConfig.opts &&
-                    jsdocConfig.opts.template) && !(jsdocConfig.templates &&
-                    jsdocConfig.templates.default &&
-                    jsdocConfig.templates.default.layoutFile)) {
+                if (!(jsdocConfigClone.opts &&
+                    jsdocConfigClone.opts.template) && !(jsdocConfigClone.templates &&
+                    jsdocConfigClone.templates.default &&
+                    jsdocConfigClone.templates.default.layoutFile)) {
                     args = args.concat(['-t', inkdocstrap]);
                 }
 
@@ -112,7 +114,7 @@ export function jsdoc(config, done) {
                 });
                 child.on('close', function (code) {
                     if (code === 0) {
-                        gutil.log('Documented ' + jsdocConfig.source.include.length + ' files!');
+                        gutil.log('Documented ' + jsdocConfigClone.source.include.length + ' files!');
                         resolve();
                     } else {
                         gutil.log(gutil.colors.red('JSDoc returned with error code: ' + code));
