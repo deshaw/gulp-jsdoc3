@@ -48,7 +48,7 @@
     "debug": "^2.2.0",
     "gulp-util": "^3.0.7",
     "ink-docstrap": "^1.1.4",
-    "jsdoc": "https://github.com/Marujah/jsdoc/tarball/tree/releases/3.4",
+    "jsdoc": "https://github.com/Marujah/jsdoc/tarball/releases/3.4",
     "map-stream": "0.0.6",
     "tmp": "0.0.28"
   },
