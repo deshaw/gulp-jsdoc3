@@ -72,7 +72,7 @@ export function jsdoc(config, done) {
                 return;
             }
 
-            const tmpobj = tmp.fileSync();
+            const tmpobj = tmp.fileSync({postfix: '.json'});
             debug('Documenting files: ' + jsdocConfigClone.source.include.join(' '));
             fs.writeFile(tmpobj.name, JSON.stringify(jsdocConfigClone), 'utf8', function (err) {
                 // We couldn't write the temp file
