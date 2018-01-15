@@ -2,7 +2,8 @@ import map from 'map-stream';
 import tmp from 'tmp';
 import fs from 'fs';
 import path from 'path';
-import gutil from 'gulp-util';
+import fancyLog from 'fancy-log';
+import beeper from 'beeper';
 import Promise from 'bluebird';
 let os = require('os').type();
 
@@ -66,8 +67,8 @@ export function jsdoc(config, done) {
 
             if (jsdocConfigClone.source.include.length === 0) {
                 const errMsg = 'JSDoc Error: no files found to process';
-                gutil.log(gutil.colors.red(errMsg));
-                gutil.beep();
+                fancyLog.error(errMsg);
+                beeper();
                 reject(new Error(errMsg));
                 return;
             }
@@ -105,26 +106,26 @@ export function jsdoc(config, done) {
                 child.stderr.setEncoding('utf8');
                 /* istanbul ignore next */
                 child.stdout.on('data', function (data) {
-                    gutil.log(data);
+                    fancyLog(data);
                 });
                 /* istanbul ignore next */
                 child.stderr.on('data', function (data) {
-                    gutil.log(gutil.colors.red(data));
-                    gutil.beep();
+                    fancyLog.error(data);
+                    beeper();
                 });
                 child.on('close', function (code) {
                     if (code === 0) {
-                        gutil.log('Documented ' + jsdocConfigClone.source.include.length + ' files!');
+                        fancyLog('Documented ' + jsdocConfigClone.source.include.length + ' files!');
                         resolve();
                     } else {
-                        gutil.log(gutil.colors.red('JSDoc returned with error code: ' + code));
-                        gutil.beep();
+                        fancyLog.error('JSDoc returned with error code: ' + code);
+                        beeper();
                         reject(new Error('JSDoc closed with error code: ' + code));
                     }
                 });
                 child.on('error', function (error) {
-                    gutil.log(gutil.colors.red('JSDoc Error: ' + error));
-                    gutil.beep();
+                    fancyLog.error('JSDoc Error: ' + error);
+                    beeper();
                     reject(new Error(error));
                 });
             });
