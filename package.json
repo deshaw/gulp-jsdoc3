@@ -1,6 +1,6 @@
 {
   "name": "gulp-jsdoc3",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "gulp integration for jsdoc3 cli",
   "main": "index.js",
   "files": [
@@ -23,7 +23,7 @@
     "preversion": "echo \"Another version! Keep up the good work!\"",
     "version": "",
     "postversion": "git push && git push --tags",
-    "prepublish": "gulp default",
+    "prepare": "gulp default",
     "coveralls": "gulp test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "keywords": [
@@ -44,36 +44,35 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "ansi-colors": "^1.0.1",
+    "ansi-colors": "^1.1.0",
     "beeper": "^1.1.1",
     "bluebird": "^3.1.1",
-    "debug": "^2.2.0",
+    "debug": "^3.1.0",
     "fancy-log": "^1.3.2",
     "ink-docstrap": "^1.1.4",
     "jsdoc": "^3.4.1",
-    "map-stream": "0.0.6",
-    "tmp": "0.0.28"
+    "map-stream": "0.0.7",
+    "tmp": "0.0.33"
   },
   "devDependencies": {
     "babel-cli": "^6.3.15",
     "babel-core": "^6.3.15",
-    "babel-eslint": "^4.1.6",
-    "babel-plugin-transform-object-assign": "^6.8.0",
-    "babel-preset-es2015": "^6.3.13",
-    "chai": "^3.4.1",
-    "coveralls": "^2.11.6",
-    "eslint": "^1.10.3",
-    "eslint-plugin-babel": "^3.0.0",
+    "babel-eslint": "^8.2.2",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.19.0",
+    "eslint-plugin-babel": "^4.1.0",
     "gulp": "^3.9.0",
-    "gulp-babel": "^6.1.1",
-    "gulp-eslint": "^1.1.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-eslint": "^4.0.2",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
-    "gulp-sourcemaps": "^1.6.0",
+    "gulp-sourcemaps": "^2.6.4",
     "isparta": "^4.0.0",
-    "mocha": "^2.3.4",
+    "mocha": "^5.0.4",
     "mock-spawn": "^0.2.6",
     "pre-commit": "^1.1.2",
-    "run-sequence": "^1.1.5"
+    "run-sequence": "^2.2.1"
   }
 }
