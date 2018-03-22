@@ -121,11 +121,13 @@ describe('gulp-jsdoc', function () {
                     expect(fs.readFileSync(config.opts.destination + '/module-JSDocTesting.html', 'utf-8'))
                         .to.contain('inputDataHere');
                     clearInterval(interval);
-                    return cb();
+                    cb();
+                    return;
                 }
                 if (++count > maxPolls) {
                     clearInterval(interval);
-                    return cb(new Error('Timeout'));
+                    cb(new Error('Timeout'));
+                    return;
                 }
             }, pollMS);
         });
