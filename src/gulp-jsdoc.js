@@ -115,7 +115,10 @@ export function jsdoc(config, done) {
                 });
                 child.on('close', function (code) {
                     if (code === 0) {
-                        fancyLog('Documented ' + jsdocConfigClone.source.include.length + ' files!');
+                        fancyLog('Documented ' + 
+                                 jsdocConfigClone.source.include.length + ' ' +
+                                 ( jsdocConfigClone.source.include.length === 1 ? 'file!' : 'files!' )
+                        );
                         resolve();
                     } else {
                         fancyLog.error('JSDoc returned with error code: ' + code);
