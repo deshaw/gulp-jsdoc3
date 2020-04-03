@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import fancyLog from 'fancy-log';
 import beeper from 'beeper';
-import Promise from 'bluebird';
 let os = require('os').type();
 
 let debug = require('debug')('gulp-jsdoc3');
@@ -115,7 +114,7 @@ export function jsdoc(config, done) {
                 });
                 child.on('close', function (code) {
                     if (code === 0) {
-                        fancyLog('Documented ' + 
+                        fancyLog('Documented ' +
                                  jsdocConfigClone.source.include.length + ' ' +
                                  ( jsdocConfigClone.source.include.length === 1 ? 'file!' : 'files!' )
                         );
@@ -132,6 +131,6 @@ export function jsdoc(config, done) {
                     reject(new Error(error));
                 });
             });
-        }).asCallback(done);
+        }).then((data) => done(undefined, data)).catch((err) => done(err));
     });
 }

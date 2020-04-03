@@ -157,7 +157,7 @@ describe('gulp-jsdoc', function () {
                 expect(err).to.exist;
                 cb();
             };
-            gulp.src(['./unkownFileName']).pipe(jsdoc(config, done));
+            gulp.src(['./unkownFileName'], {allowEmpty: true}).pipe(jsdoc(config, done));
         });
     });
 
