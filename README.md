@@ -1,6 +1,6 @@
 # gulp-jsdoc3
 
-[![NPM version][npm-image]][npm-url] [![NPM DM][npm-dm-image]][npm-url] [![Build Status][travis-image]][travis-url]  [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
+[![NPM version][npm-image]][npm-url] [![NPM DM][npm-dm-image]][npm-url] [![Build Status][travis-image]][travis-url]  [![Coverage Status][coveralls-image]][coveralls-url]
 
 > [jsdoc](https://github.com/jsdoc3/jsdoc) plugin for [gulp](https://github.com/gulpjs/gulp)
 
@@ -37,7 +37,7 @@ gulp.task('doc', function (cb) {
 });
 ```
 
-Another good example is in this project's [gulpfile](https://github.com/mlucool/gulp-jsdoc3/blob/master/gulpfile.js)!
+Another good example is in this project's [gulpfile](https://github.com/deshaw/gulp-jsdoc3/blob/master/gulpfile.js)!
 
 ## Overriding the default layout
 
@@ -70,7 +70,7 @@ If you want to document multiple markdown or html files, enable [tutorial suppor
 ```
 
 ## Debugging
-Set env variable: ```DEBUG=gulp-jsdoc3```  
+Set env variable: ```DEBUG=gulp-jsdoc3```
 
 ## Notes
 This is a reasonable attempt to wrap jsdoc using gulp as thinly as possible use the jsdoc config to pass in files from gulp.
@@ -78,7 +78,13 @@ This is a reasonable attempt to wrap jsdoc using gulp as thinly as possible use 
 anti-pattern. It also does not pass on output to be piped elsewhere.
 
 
-I would like to thank Mangled Deutz @ [gulp-jsdoc](https://github.com/jsBoot/gulp-jsdoc) for the original implementation.
+We would like to thank Mangled Deutz @ [gulp-jsdoc](https://github.com/jsBoot/gulp-jsdoc) for the original implementation.
+
+## History
+
+This plugin was contributed back to the community by the [D. E. Shaw group](https://www.deshaw.com/).
+
+![Screenshot](https://github.com/deshaw/gulp-jsdoc3/blob/master/docs/DESCO_logo_200x200.png 'D. E. Shaw Logo')
 
 License
 -------------
@@ -88,12 +94,8 @@ License
 [npm-image]: https://badge.fury.io/js/gulp-jsdoc3.png
 [npm-dm-image]: https://img.shields.io/npm/dm/gulp-jsdoc3.svg
 
-[travis-url]: http://travis-ci.org/mlucool/gulp-jsdoc3
-[travis-image]: https://secure.travis-ci.org/mlucool/gulp-jsdoc3.png?branch=master
+[travis-url]: http://travis-ci.org/deshaw/gulp-jsdoc3
+[travis-image]: https://secure.travis-ci.org/deshaw/gulp-jsdoc3.png?branch=master
 
-[coveralls-url]: https://coveralls.io/github/mlucool/gulp-jsdoc3?branch=master
-[coveralls-image]: https://coveralls.io/repos/mlucool/gulp-jsdoc3/badge.svg?branch=master&service=github
-
-[depstat-url]: https://david-dm.org/mlucool/gulp-jsdoc3
-[depstat-image]: https://david-dm.org/mlucool/gulp-jsdoc3.png
-
+[coveralls-url]: https://coveralls.io/github/deshaw/gulp-jsdoc3?branch=master
+[coveralls-image]: https://coveralls.io/repos/deshaw/gulp-jsdoc3/badge.svg?branch=master&service=github

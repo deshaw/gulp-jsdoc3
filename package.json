@@ -11,12 +11,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mlucool/gulp-jsdoc3.git"
+    "url": "git+https://github.com/deshaw/gulp-jsdoc3.git"
   },
   "bugs": {
-    "url": "https://github.com/mlucool/gulp-jsdoc3/issues"
+    "url": "https://github.com/deshaw/gulp-jsdoc3/issues"
   },
-  "homepage": "https://github.com/mlucool/gulp-jsdoc3#readme",
+  "homepage": "https://github.com/deshaw/gulp-jsdoc3#readme",
   "scripts": {
     "lint": "gulp lint",
     "test": "mocha  --require @babel/register ./test/**/*_spec.js",
@@ -37,7 +37,7 @@
   ],
   "author": {
     "name": "Marc Udoff",
-    "email": "marc.opensource@gmail.com"
+    "email": "marc.udoff@deshaw.com"
   },
   "pre-commit": [
     "lint",
