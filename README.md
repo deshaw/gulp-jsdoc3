@@ -15,7 +15,7 @@ npm install --save-dev gulp-jsdoc3
 ## Usage
 
 ```javascript
-var jsdoc = require('gulp-jsdoc3');
+const jsdoc = require('gulp-jsdoc3');
 
 gulp.task('doc', function (cb) {
     gulp.src(['README.md', './src/**/*.js'], {read: false})
@@ -28,10 +28,10 @@ By default, documentation is output to `docs/gen`. gulp-jsdoc3 does not modify t
 You can also pass in your own config to override the defaults. All CLI options can be specified here.
 
 ```javascript
-var jsdoc = require('gulp-jsdoc3');
+const jsdoc = require('gulp-jsdoc3');
 
 gulp.task('doc', function (cb) {
-    var config = require('./jsdoc.json');
+    const config = require('./jsdoc.json');
     gulp.src(['README.md', './src/**/*.js'], {read: false})
         .pipe(jsdoc(config, cb));
 });
