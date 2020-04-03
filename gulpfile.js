@@ -4,11 +4,11 @@ let gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     babel = require('gulp-babel'),
     eslint = require('gulp-eslint'),
-    istanbul = require('gulp-istanbul'),
-    mocha = require('gulp-mocha');
+    log = require('fancy-log'),
+    gulpIf = require('gulp-if');
+
 
 const srcCode = ['./src/**/*.js'];
-const specs = ['./test/**/*_spec.js'];
 const lintedFiles = ['*.js', './test/**/*.js', '!./test/docs/**/*.js'].concat(srcCode);
 
 // No real need to have a minify set for now, let dev and prod builds be the same
@@ -26,19 +26,33 @@ gulp.task('copy', function () {
 });
 
 gulp.task('lint', function () {
-    return gulp.src(lintedFiles)
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failOnError());
+    const fix = process.argv.indexOf('--fix') !== -1;
+    const task = gulp.src(lintedFiles)
+        .pipe(eslint({fix}))
+        .pipe(gulpIf((file) => {
+            if (file.eslint && file.eslint.fixed) {
+                log('[gulp][eslint]', `Fixed ${file.path}`);
+                return true;
+            }
+            return false;
+        }, gulp.dest((file) => file.base)))
+        .pipe(eslint.format());
+    // Let watch lint keep going
+    if (process.argv.indexOf('watch-lint') === -1) {
+        return task.pipe(eslint.failOnError());
+    }
+    return task;
 });
 
-gulp.task('watch-lint', function () {
-    let runSequence = require('run-sequence');
-
-    runSequence('lint', function () {
-        gulp.watch(lintedFiles, ['lint']);
-    });
-});
+gulp.task('watch-lint', gulp.series([
+    'lint',
+    function watching() {
+        return gulp.watch(
+            lintedFiles, gulp.series(['lint'])
+        );
+    }
+])
+);
 
 // We do this over using include/exclude to make everything feel gulp-like!
 gulp.task('doc', function (cb) {
@@ -49,29 +63,4 @@ gulp.task('doc', function (cb) {
         .pipe(jsdoc(config, cb));
 });
 
-gulp.task('pre-test', function () {
-    // Everything file loaded from here uses babel with .babelrc
-    require('babel-core/register'); // https://babeljs.io/docs/usage/require/
-
-    return gulp.src(srcCode)
-        // Covering files (we use isparta for babel support)
-        .pipe(istanbul({instrumenter: require('isparta').Instrumenter}))
-        // Force `require` to return covered files
-        .pipe(istanbul.hookRequire());
-});
-
-gulp.task('test', ['pre-test'], function () {
-    // Everything file loaded from here uses babel with .babelrc
-    require('babel-core/register'); // https://babeljs.io/docs/usage/require/
-
-    return gulp.src(specs, {read: false})
-        .pipe(mocha())
-        .pipe(istanbul.writeReports())
-        // Enforce a coverage of at least 90%
-        .pipe(istanbul.enforceThresholds({thresholds: {global: 75}}));
-});
-
-gulp.task('default', function (cb) {
-    let runSequence = require('run-sequence');
-    runSequence('copy', 'build', 'doc', cb);
-});
+gulp.task('default', gulp.series('copy', 'build', 'doc'));
