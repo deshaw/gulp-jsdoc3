@@ -84,7 +84,11 @@ We would like to thank Mangled Deutz @ [gulp-jsdoc](https://github.com/jsBoot/gu
 
 This plugin was contributed back to the community by the [D. E. Shaw group](https://www.deshaw.com/).
 
-![Screenshot](https://github.com/deshaw/gulp-jsdoc3/blob/master/docs/DESCO_logo_200x200.png 'D. E. Shaw Logo')
+<p align="center">
+    <a href="https://www.deshaw.com">
+       <img src="https://www.deshaw.com/assets/logos/black_logo_417x125.png" alt="D. E. Shaw Logo" height="75" >
+    </a>
+</p>
 
 License
 -------------
