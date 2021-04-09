@@ -8,6 +8,9 @@ let os = require('os').type();
 
 let debug = require('debug')('gulp-jsdoc3');
 
+// tmp is not deleting the file by default (https://github.com/raszi/node-tmp/issues/266)
+tmp.setGracefulCleanup();
+
 /**
  * @callback gulpDoneCallback
  */
